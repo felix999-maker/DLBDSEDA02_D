@@ -1,3 +1,8 @@
+# Datensatz
+Der zur Analyse verwendete Datensatz ist kostenfrei auf der Plattform kaggle zugänglich:
+
+https://www.kaggle.com/datasets/sid321axn/amazon-alexa-reviews
+
 # Ausgabe der Analyse von den negativen Bewertungen:
 LDA:
 
