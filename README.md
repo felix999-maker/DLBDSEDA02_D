@@ -30,7 +30,7 @@ LDA:
 
 - Thema 1
 ['product', 'stick', 'amazing', 'fire', 'device', 'sound', 'great', 'love', 'work', 'good']
--Thema 2
+- Thema 2
 ['fun', 'smart', 'new', 'setup', 'alexa', 'music', 'love', 'use', 'set', 'easy']
 - Thema 3
 ['echo', 'quality', 'everything', 'music', 'learning', 'still', 'sound', 'product', 'work', 'great']
