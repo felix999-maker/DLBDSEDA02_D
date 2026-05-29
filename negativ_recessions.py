@@ -16,6 +16,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.decomposition import TruncatedSVD
 
+from gensim.corpora import Dictionary
+from gensim.models import CoherenceModel
+import matplotlib.pyplot as plt
+
 #-----------------------------------------------------
 # NLTK-Ressourcen herunterladen
 #-----------------------------------------------------
@@ -65,6 +69,100 @@ negative_reviews = df[df["rating"] <= 2]
 
 df[["verified_reviews", "cleaned_reviews"]].head()
 
+# -----------------------------------------------------
+# Coherence Score berechnen
+# -----------------------------------------------------
+
+# Datengrundlage auswählen
+reviews = negative_reviews["cleaned_reviews"]
+
+# Tokenisierte Texte erzeugen
+tokenized_texts = [text.split() for text in reviews]
+
+# Dictionary für Gensim erstellen
+dictionary = Dictionary(tokenized_texts)
+
+topic_numbers = range(2, 11)
+coherence_scores = []
+
+for num_topics in topic_numbers:
+
+    # Bag-of-Words erzeugen
+    vectorizer = CountVectorizer()
+    bow_matrix = vectorizer.fit_transform(reviews)
+
+    # LDA-Modell
+    lda_model = LatentDirichletAllocation(
+        n_components=num_topics,
+        random_state=42
+    )
+
+    lda_model.fit(bow_matrix)
+
+    # Top-Wörter je Thema extrahieren
+    feature_names = vectorizer.get_feature_names_out()
+
+    topics = []
+
+    for topic in lda_model.components_:
+
+        top_words = [
+            feature_names[i]
+            for i in topic.argsort()[-10:]
+        ]
+
+        topics.append(top_words)
+
+    # Coherence Score berechnen
+    coherence_model = CoherenceModel(
+        topics=topics,
+        texts=tokenized_texts,
+        dictionary=dictionary,
+        coherence='c_v'
+    )
+
+    coherence = coherence_model.get_coherence()
+
+    coherence_scores.append(coherence)
+
+    print(
+        f"Themen: {num_topics} | "
+        f"Coherence Score: {coherence:.4f}"
+    )
+
+# -----------------------------------------------------
+# Diagramm erstellen
+# -----------------------------------------------------
+
+plt.figure(figsize=(8, 5))
+
+plt.plot(
+    list(topic_numbers),
+    coherence_scores,
+    marker="o"
+)
+
+plt.xlabel("Anzahl der Themen")
+plt.ylabel("Coherence Score")
+plt.title("Optimale Anzahl der Themen")
+
+plt.grid(True)
+
+plt.show()
+
+# -----------------------------------------------------
+# Beste Anzahl bestimmen
+# -----------------------------------------------------
+
+best_topics = topic_numbers[
+    coherence_scores.index(max(coherence_scores))
+]
+
+print(
+    f"\nOptimale Anzahl der Themen: {best_topics}"
+)
+
+
 #-----------------------------------------------------
 # BoW erstellen
 #-----------------------------------------------------
@@ -81,7 +179,7 @@ tfidf_matrix = tfidf_vectorizer.fit_transform(negative_reviews["cleaned_reviews"
 # LDA mit BoW durchführen
 #-----------------------------------------------------
 lda_model = LatentDirichletAllocation(
-    n_components=5,
+    n_components=best_topics,
     random_state=42
 )
 
@@ -102,7 +200,7 @@ for index, topic in enumerate(lda_model.components_):
 # LSA mit TF-IDF durchführen
 #-----------------------------------------------------
 lsa_model = TruncatedSVD(
-    n_components=5,
+    n_components=best_topics,
     random_state=42
 )
 
