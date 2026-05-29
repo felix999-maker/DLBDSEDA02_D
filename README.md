@@ -3,11 +3,33 @@ Der zur Analyse verwendete Datensatz ist kostenfrei auf der Plattform kaggle zug
 
 https://www.kaggle.com/datasets/sid321axn/amazon-alexa-reviews
 
+# Verwendung
+## Voraussetzungen
+Für die Ausführung des Projekts wird Python 3.x benötigt. Die erforderlichen Bibliotheken können über die bereitgestellte `requirements.txt` installiert werden.
 
-# Auswertung Coherence Score von den negativen Bewertungen:
+`pip install -r requirements.txt`
+
+## Datensatz
+Der Datensatz `amazon_alexa.tsv` muss im selben Verzeichnis wie die Python-Skripte abgelegt werden.
+
+## Ausführung
+Für die Analyse stehen zwei Skripte zur Verfügung:
+- `positiv_recessions.py` zur Analyse positiver Bewertungen (4-5 Sterne)
+- `negativ_recessions.py` zur Analyse negativer Bewertungen (1-2 Sterne)
+
+Die Skripte können über die Kommandozeile oder innerhalb einer Jupyter-Notebook-Umgebung ausgeführt werden:
+
+`python positiv_recessions.py`
+
+bzw.
+
+`python negativ_recessions.py`
+
+# Ergebnisse
+## Auswertung Coherence Score von den negativen Bewertungen:
 <img width="1230" height="873" alt="image" src="https://github.com/user-attachments/assets/2aedcd2d-ba9a-423e-a213-92cc4c9af5b7" />
 
-# Ausgabe der Analyse von den negativen Bewertungen:
+## Ausgabe der Analyse von den negativen Bewertungen:
 LDA:
 
 - Thema 1
@@ -23,10 +45,10 @@ LSA:
 ['worked', 'dot', 'month', 'command', 'used', 'twice', 'stopped', 'didnt', 'work', 'working']
 
 
-# Auswertung Coherence Score von den positiven Bewertungen:
+## Auswertung Coherence Score von den positiven Bewertungen:
 <img width="1230" height="872" alt="image" src="https://github.com/user-attachments/assets/f2d7210f-e310-42d6-b571-e52cf9559173" />
 
-# Ausgabe der Analyse von den positiven Bewertungen:
+## Ausgabe der Analyse von den positiven Bewertungen:
 LDA:
 
 - Thema 1
@@ -60,3 +82,4 @@ LSA:
 ['learning', 'charm', 'use', 'alexa', 'one', 'really', 'everything', 'new', 'product', 'like']
 - Thema 7
 ['pretty', 'well', 'love', 'speaker', 'far', 'quality', 'sound', 'product', 'like', 'good']
+
